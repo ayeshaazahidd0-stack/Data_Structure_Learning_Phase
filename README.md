@@ -1,2 +1,11 @@
-# Data_Structure_Learning_Phase
-These will include Java codes, basic and with time will get leveled up! Keep veiwing to see my journey and growth.
+# 🚀 Data Structures Learning Phase
+
+Welcome to my Data Structures and Algorithms journey in Java! This repository documents my code, daily practice, and progressive learning as I master core computer science concepts.
+
+## 📂 Repository Structure
+
+* **`week1/`** — Fundamentals of arrays, input handling, and foundational searching algorithms (Linear Search, Minimum/Maximum, Count Occurrences).
+* **`week2/`** — Introduction to dynamic data structures, nodes, and linked list implementations.
+
+## 🛠️ Tech Stack
+* **Language:** Java
