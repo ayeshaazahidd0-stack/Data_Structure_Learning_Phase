@@ -1,0 +1,213 @@
+class Node {
+    int data;
+    Node left, right;
+    
+    Node(int value) {
+        data = value;
+        left = null;
+        right = null;
+    }
+}
+class BST {
+    Node root;
+    
+    BST() {
+        root = null;
+    }
+
+    // Insertion
+    Node insert(Node node, int value) {
+        if (node == null) return new Node(value);
+        if (value < node.data)
+            node.left = insert(node.left, value);
+        else if (value > node.data)
+            node.right = insert(node.right, value);
+        return node;
+    }
+
+    void insert(int value) {
+        root = insert(root, value);
+    }
+
+    // Search
+    boolean search(Node node, int value) {
+        if (node == null) return false;
+        if (value == node.data) return true;
+        if (value < node.data) return search(node.left, value);
+        return search(node.right, value);
+    }
+
+    boolean search(int value) {
+        return search(root, value);
+    }
+
+    // Deletion
+    Node deleteNode(Node node, int value) {
+        if (node == null) {
+            return null;
+        }
+        if (value < node.data) {
+            node.left = deleteNode(node.left, value);
+        } else if (value > node.data) {
+            node.right = deleteNode(node.right, value);
+        } else {
+            // Case 1: No children (Leaf Node)
+            if (node.left == null && node.right == null) {
+                return null;
+            }
+            // Case 2a: Only Left Child
+            else if (node.right == null) {
+                return node.left;
+            }
+            // Case 2b: Only Right Child
+            else if (node.left == null) {
+                return node.right;
+            }
+            // Case 3: Two children
+            else {
+                Node successor = findMinNode(node.right);
+                node.data = successor.data;
+                node.right = deleteNode(node.right, successor.data);
+            }
+        }
+        return node;
+    }
+
+    void deleteNode(int value) {
+        root = deleteNode(root, value);
+    }
+
+ 
+    Node findMinNode(Node node) {
+        while (node.left != null) {
+            node = node.left;
+        }
+        return node;
+    }
+
+    // Task 3: Find Minimum Value
+    int findMin() {
+        if (root == null) return -1;
+        return findMinNode(root).data;
+    }
+
+    // Task 3: Find Maximum Value
+    int findMax() {
+        if (root == null) return -1;
+        Node current = root;
+        while (current.right != null) {
+            current = current.right;
+        }
+        return current.data;
+    }
+
+    // Inorder Traversal
+    void inorder(Node node) {
+        if (node != null) {
+            inorder(node.left);
+            System.out.print(node.data + " ");
+            inorder(node.right);
+        }
+    }
+
+    void inorder() {
+        inorder(root);
+        System.out.println();
+    }
+
+    // Task 2: Count Total Nodes
+    int countNodes(Node node) {
+        if (node == null) return 0;
+        return 1 + countNodes(node.left) + countNodes(node.right);
+    }
+
+    int countNodes() {
+        return countNodes(root);
+    }
+
+    // Task 2: Count Leaf Nodes
+    int countLeafNodes(Node node) {
+        if (node == null) return 0;
+        if (node.left == null && node.right == null) return 1;
+        return countLeafNodes(node.left) + countLeafNodes(node.right);
+    }
+
+    int countLeafNodes() {
+        return countLeafNodes(root);
+    }
+
+    // Task 2: Height of BST (in edges)
+    int height(Node node) {
+        if (node == null) return -1;
+        return 1 + Math.max(height(node.left), height(node.right));
+    }
+
+    int height() {
+        return height(root);
+    }
+}
+public class main {
+    public static void main(String[] args) {
+        // Task 1 & 2 Tree
+        BST tree1 = new BST();
+        tree1.insert(50); 
+        tree1.insert(30); 
+        tree1.insert(70);
+        tree1.insert(20); 
+        tree1.insert(40); 
+        tree1.insert(60);
+        tree1.insert(80);
+
+        System.out.println("Tree created successfully.");
+        System.out.print("Initial Inorder: ");
+        tree1.inorder();
+
+        // Task 1: Delete 20
+        tree1.deleteNode(20);
+        System.out.print("After deleting 20: ");
+        tree1.inorder();
+
+        // Task 2: Delete 60
+        tree1.deleteNode(60);
+        System.out.print("After deleting 60: ");
+        tree1.inorder();
+
+        // Task 3: Delete 70
+        tree1.deleteNode(70);
+        System.out.print("After deleting 70: ");
+        tree1.inorder();
+        
+        // Task 4: Display total nodes, leaf nodes, and height
+        System.out.println("Total Nodes: " + tree1.countNodes());
+        System.out.println("Leaf Nodes: " + tree1.countLeafNodes());
+        System.out.println("Height of BST (edges): " + tree1.height());
+       
+        System.out.println();
+
+        // Task 3: Online Shopping Tree (New Instance so 100 is the root)
+        BST tree2 = new BST();
+        tree2.insert(100); 
+        tree2.insert(50);
+        tree2.insert(150);
+        tree2.insert(25); 
+        tree2.insert(75);
+        tree2.insert(125);
+        tree2.insert(175);
+
+        System.out.println("Online shopping inventory BST created successfully.");
+        System.out.print("Initial Inorder: ");
+        tree2.inorder();
+
+        System.out.println("Minimum Product ID: " + tree2.findMin());
+        System.out.println("Maximum Product ID: " + tree2.findMax());
+
+        // Task 4: Delete product ID 100 (root) and check new min/max values
+        tree2.deleteNode(100);
+        System.out.println("\nAfter deleting product ID 100:");
+        System.out.print("New Inorder: ");
+        tree2.inorder();
+        System.out.println("New Minimum Product ID: " + tree2.findMin());
+        System.out.println("New Maximum Product ID: " + tree2.findMax());
+    }
+}
+
